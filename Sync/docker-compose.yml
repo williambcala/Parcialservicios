@@ -1,0 +1,29 @@
+
+
+services:
+  db:
+    build:
+      context: ./db
+      dockerfile: Dockerfile
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - my_network
+
+  flask:
+    build:
+      context: ./flask
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - my_network
+
+volumes:
+  db_data:
+
+networks:
+  my_network:
